@@ -1,0 +1,21 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  asterisk:
+    build: .
+    container_name: asterisk
+    ports:
+      - "5060:5060/udp"
+      - "5060:5060/tcp"
+      - "5061:5061/tcp"
+      - "10000-20000:10000-20000/udp"
+    volumes:
+      - ./asterisk_config:/etc/asterisk
+      - ./var_lib_asterisk:/var/lib/asterisk
+      - ./var_spool_asterisk:/var/spool/asterisk
+      - ./var_log_asterisk:/var/log/asterisk
+    environment:
+      - ASTERISK_UID=1000
+      - ASTERISK_GID=1000
+    restart: unless-stopped
